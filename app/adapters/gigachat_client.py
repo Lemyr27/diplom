@@ -18,8 +18,8 @@ SYSTEM_MESSAGE = dict(
 async def send_message(question: str, answer: str) -> str:
     logger.info(f'Отправка сообщения в GigaChat')
     message = dict(role='user', content=f'question:{question}\nanswer:{answer}')
-    async with gigachat.GigaChat(**config.get_minio_creds()) as client:
+    async with gigachat.GigaChat(**config.get_gigachat_creds()) as client:
         response = await client.achat(
-            dict(messages=[SYSTEM_MESSAGE, message], max_tokens=3000, temperature=0.1),
+            dict(messages=[SYSTEM_MESSAGE, message], max_tokens=3000, temperature=0.5),
         )
         return response.choices[0].message.content
