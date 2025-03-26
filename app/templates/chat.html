@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Чат с ИИ помощником</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/style.css') }}">
+    <script src="{{ url_for('static', path='/script.js') }}" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/markdown-it@12.0.0/dist/markdown-it.min.js"></script>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            <h1>Чат с ИИ помощником</h1>
+        </div>
+        <div class="chat-messages" id="chat-messages">
+            <!-- Messages will be added here by JavaScript -->
+        </div>
+        <div class="chat-input">
+            <input type="text" id="message-input" placeholder="Напишите вопрос...">
+            <button id="send-button">Отправить</button>
+        </div>
+    </div>
+</body>
+</html>

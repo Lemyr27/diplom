@@ -3,6 +3,7 @@ import io
 from langchain_core.documents import Document
 from langchain_text_splitters import CharacterTextSplitter
 
+from app import schemas
 from app.adapters import elasticsearch, gigachat_client, minio_client, docx
 
 
@@ -18,11 +19,12 @@ async def index_document(file: io.BytesIO, filename: str) -> None:
         await elasticsearch.index_document(text=doc.page_content, filename=filename, chunk_id=i)
 
 
-async def search(question: str) -> tuple[str, str]:
-    answer, filename = await elasticsearch.search(question)
-    url = await minio_client.get_object_url(filename)
-    result = await gigachat_client.send_message(question, answer)
-    return result, url
+async def search(question: str) -> schemas.SearchResult:
+    search_results = await elasticsearch.search(question)
+    avg_answer = '\nanswer:'.join(r.text for r in search_results)
+    url = await minio_client.get_object_url(search_results[0].filename)
+    result = await gigachat_client.send_message(question, avg_answer)
+    return schemas.SearchResult(text=result, url=url, filename=search_results[0].filename[11:])
 
 
 async def add_document(file: io.BytesIO, filename: str) -> None:

@@ -1,4 +1,5 @@
 import logging
+from dataclasses import dataclass
 
 from elasticsearch import AsyncElasticsearch
 
@@ -13,17 +14,17 @@ async def create_index() -> None:
         index = config.ELASTICSEARCH_INDEX
         logger.debug(f'Создаем индекс {index}.')
         props = {
-            "text": {"type": "text"},
-            "filename": {"type": "keyword"},
-            "chunk_id": {"type": "integer"},
-            "text_embedding": {
-                "type": "dense_vector",
-                "dims": 512,
-                "index": True,
-                "similarity": "cosine"
+            'text': {'type': 'text'},
+            'filename': {'type': 'keyword'},
+            'chunk_id': {'type': 'integer'},
+            'text_embedding': {
+                'type': 'dense_vector',
+                'dims': 512,
+                'index': True,
+                'similarity': 'cosine'
             }
         }
-        await es_client.indices.create(index=index, mappings={"properties": props})
+        await es_client.indices.create(index=index, mappings={'properties': props})
 
 
 async def index_document(text: str, filename: str, chunk_id: int) -> None:
@@ -42,25 +43,35 @@ async def delete_index() -> None:
             await es_client.indices.delete(index=index)
 
 
-async def search(query: str) -> tuple[str, str]:
+@dataclass
+class Search:
+    text: str
+    filename: str
+
+
+async def search(query: str) -> list[Search]:
     async with AsyncElasticsearch(config.ELASTIC_URL) as es_client:
         query_embedding = embedding.get_embedding(query)
-        lexical_search = {"match": {"text": {"query": query, "boost": 0.5}}}
+        lexical_search = {'match': {'text': {'query': query, 'boost': 0.5}}}
         semantic_search = {
-            "script_score": {
-                "query": {"match_all": {}},
-                "script": {
-                    "source": "cosineSimilarity(params.query_vector, 'text_embedding') + 1.0",
-                    "params": {"query_vector": query_embedding}
+            'script_score': {
+                'query': {'match_all': {}},
+                'script': {
+                    'source': 'cosineSimilarity(params.query_vector, "text_embedding") + 1.0',
+                    'params': {'query_vector': query_embedding}
                 }
             }
         }
         search_query = {
-            "query": {"bool": {"should": [lexical_search], 'must': [semantic_search]}},
-            'size': 1,
+            'query': {'bool': {'must': [lexical_search], 'should': [semantic_search]}},
+            'size': 2,
         }
         response = await es_client.search(index=config.ELASTICSEARCH_INDEX, body=search_query)
-        return (
-            response['hits']['hits'][0]['_source']['text'],
-            response['hits']['hits'][0]['_source']['filename']
-        )
+        hits = response['hits']['hits']
+
+        results: list[Search] = []
+        for s in hits:
+            res = Search(text=s['_source']['text'], filename=s['_source']['filename'])
+            results.append(res)
+
+        return results

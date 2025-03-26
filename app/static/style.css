@@ -1,0 +1,104 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.chat-container {
+    width: 80%;
+    max-width: 800px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 90vh; /* Set a fixed height */
+}
+
+.chat-header {
+    background-color: #007bff;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+    font-size: 24px;
+}
+
+.chat-messages {
+    padding: 20px;
+    flex-grow: 1;
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+
+.chat-messages p {
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    max-width: 70%;
+    word-break: break-word; /* Ensure long words don't break the layout */
+}
+
+.chat-messages .user-message {
+    background-color: #e2f0ff;
+    align-self: flex-start; /* Align user messages to the left */
+}
+
+.chat-messages .bot-message {
+    background-color: #f0f0f0;
+    align-self: flex-end; /* Align bot messages to the right */
+}
+
+.chat-input {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    border-top: 1px solid #ddd;
+}
+
+.chat-input input[type="text"] {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-right: 10px;
+    font-size: 16px;
+}
+
+.chat-input button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.chat-input button:hover {
+    background-color: #0056b3;
+}
+
+/* Align messages to left and right */
+.chat-messages p {
+    display: inline-block; /* Make the paragraph an inline-block element */
+    clear: both; /* Ensure it clears any floats */
+}
+
+.chat-messages .bot-message {
+    float: left; /* Float to the left */
+    clear: both; /* Ensure it clears any previous floats */
+}
+
+.chat-messages .user-message {
+    float: right; /* Float to the right */
+    clear: both; /* Ensure it clears any previous floats */
+}
+
+a {
+    text-decoration: none;
+}
