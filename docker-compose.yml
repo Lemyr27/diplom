@@ -8,12 +8,18 @@ services:
 #      - db
 #      - minio
 #    environment:
-#      - ELASTICSEARCH_HOST=elasticsearch
+#      - POSTGRES_USER=${POSTGRES_USER}
+#      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+#      - POSTGRES_DB=${POSTGRES_DB}
 #      - GIGACHAT_SCOPE=${GIGACHAT_SCOPE}
 #      - GIGACHAT_TOKEN=${GIGACHAT_TOKEN}
 #      - GIGACHAT_MODEL=${GIGACHAT_MODEL}
+#      - MINIO_URL=${MINIO_URL}
 #      - MINIO_ACCESS_KEY=${MINIO_ACCESS_KEY}
 #      - MINIO_SECRET_KEY=${MINIO_SECRET_KEY}
+#      - MINIO_BUCKET=${MINIO_BUCKET}
+#      - ELASTICSEARCH_INDEX=${ELASTICSEARCH_INDEX}
+#      - ELASTICSEARCH_HOST=${ELASTICSEARCH_HOST}
 
   elasticsearch:
     image: elasticsearch:8.17.3

@@ -1,12 +1,9 @@
 import io
-import logging
 
 from langchain_core.documents import Document
 from langchain_text_splitters import CharacterTextSplitter
 
 from app.adapters import elasticsearch, gigachat_client, minio_client, docx
-
-logger = logging.getLogger(__name__)
 
 
 async def _create_docs_from_text(text: str) -> list[Document]:
