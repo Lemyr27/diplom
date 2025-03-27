@@ -30,3 +30,12 @@ def get_minio_creds() -> dict:
         secret_key=os.environ.get('MINIO_SECRET_KEY'),
         secure=False,
     )
+
+
+def get_postgres_creds() -> str:
+    user = os.environ.get('POSTGRES_USER')
+    password = os.environ.get('POSTGRES_PASSWORD')
+    db_name = os.environ.get('POSTGRES_DB')
+    host = os.environ.get('POSTGRES_HOST')
+    port = int(os.environ.get('POSTGRES_PORT'))
+    return f'postgresql+asyncpg://{user}:{password}@{host}:{port}/{db_name}'

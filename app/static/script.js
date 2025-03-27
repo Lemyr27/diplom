@@ -1,7 +1,25 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     const messageInput = document.getElementById('message-input');
     const sendButton = document.getElementById('send-button');
     const chatMessages = document.getElementById('chat-messages');
+
+
+    let response = await fetch('/chat', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    });
+    data = await response.json()
+
+    let msg;
+    let url;
+    for (let i = 0; i < data.messages.length; i++) {
+        msg = data.messages[i];
+        displayMessage(msg.user_msg, 'user');
+        url = `<br><br>Источник: <a style="text-decoration: none;" href="${msg.url}" target="_blank">${msg.filename}</a>`;
+        displayMessage(msg.bot_msg + url, 'bot');
+    }
 
     sendButton.addEventListener('click', async () => {
         const messageText = messageInput.value.trim();
@@ -10,16 +28,20 @@ document.addEventListener('DOMContentLoaded', () => {
             messageInput.value = '';
 
             try {
-                const response = await fetch('/search?q=' + messageText, {
-                    method: 'GET',
+                let message = {
+                    content: messageText
+                }
+                response = await fetch('/chat', {
+                    method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
+                    body: JSON.stringify(message)
                 });
 
                 if (response.ok) {
-                    const data = await response.json();
-                    const url = `<br><br>Источник: <a style="text-decoration: none;" href="${data.url}" target="_blank">${data.filename}</a>`;
+                    data = await response.json();
+                    url = `<br><br>Источник: <a style="text-decoration: none;" href="${data.url}" target="_blank">${data.filename}</a>`;
                     displayMessage(data.text + url, 'bot');
                 } else {
                     displayMessage('Ошибка: к сожалению, мы не нашли ответ на ваш вопрос.', 'bot');

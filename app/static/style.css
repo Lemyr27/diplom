@@ -24,9 +24,9 @@ body {
 .chat-header {
     background-color: #007bff;
     color: #fff;
-    padding: 20px;
+    padding: 10px;
     text-align: center;
-    font-size: 24px;
+    font-size: 18px;
 }
 
 .chat-messages {
