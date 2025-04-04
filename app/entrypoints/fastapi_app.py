@@ -32,6 +32,8 @@ async def chat(msg: schemas.MessageBody) -> schemas.SearchResult:
 @app.get('/chat', tags=['chat'])
 async def get_chat() -> schemas.Chat:
     result = await views.get_chat()
+    keywords = await services.generate_keywords()
+    result.keywords = keywords
     return result
 
 

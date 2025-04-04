@@ -55,3 +55,14 @@ async def add_document(file: io.BytesIO, filename: str) -> None:
     except:
         await minio_client.remove_object(fullname)
         raise
+
+
+async def generate_keywords(
+    uow: unit_of_work.SqlAlchemyUnitOfWork = unit_of_work.SqlAlchemyUnitOfWork(),
+) -> list[str]:
+    async with uow:
+        stmt = 'SELECT user_msg FROM messages'
+        result = await uow.session.execute(text(stmt))
+        messages = list(result.scalars().all())
+        keywords = await gigachat_client.generate_keywords(messages)
+        return keywords

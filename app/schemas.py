@@ -19,4 +19,5 @@ class Message(BaseModel):
 
 
 class Chat(BaseModel):
+    keywords: list[str] = []
     messages: list[Message]

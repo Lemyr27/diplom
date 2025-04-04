@@ -8,18 +8,20 @@ services:
 #      - db
 #      - minio
 #    environment:
-#      - POSTGRES_USER=${POSTGRES_USER}
-#      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-#      - POSTGRES_DB=${POSTGRES_DB}
-#      - GIGACHAT_SCOPE=${GIGACHAT_SCOPE}
-#      - GIGACHAT_TOKEN=${GIGACHAT_TOKEN}
-#      - GIGACHAT_MODEL=${GIGACHAT_MODEL}
-#      - MINIO_URL=${MINIO_URL}
-#      - MINIO_ACCESS_KEY=${MINIO_ACCESS_KEY}
-#      - MINIO_SECRET_KEY=${MINIO_SECRET_KEY}
-#      - MINIO_BUCKET=${MINIO_BUCKET}
-#      - ELASTICSEARCH_INDEX=${ELASTICSEARCH_INDEX}
-#      - ELASTICSEARCH_HOST=${ELASTICSEARCH_HOST}
+#      - POSTGRES_USER=postgres
+#      - POSTGRES_PASSWORD=postgres
+#      - POSTGRES_DB=vlad_test
+#      - POSTGRES_HOST=localhost
+#      - POSTGRES_PORT=5432
+#      - GIGACHAT_SCOPE=GIGACHAT_API_PERS
+#      - GIGACHAT_TOKEN="NzMxZjdlYTAtYmI0Yi00NWMwLTlhYmEtZTI3OWIxZTcxNDMwOjM3MzBjYjE0LTM3M2QtNDg4Mi1hYTdlLWIzODlhZDdkNWM4Ng=="
+#      - GIGACHAT_MODEL="GigaChat"
+#      - MINIO_URL=localhost:9000
+#      - MINIO_ACCESS_KEY=p0nBcFUnsrboT6IjyLKuzKljuxvGkinbPc8i9B2JxVH6ibaZG2XKHGk44LQ4FYNd
+#      - MINIO_SECRET_KEY=ZJxIx4smRbaHq3qfoQDuscz9tOS2CkwksfxMTJWKAP9WE67NYuf3DR6xuyQu8MIP
+#      - MINIO_BUCKET=documents
+#      - ELASTICSEARCH_INDEX=documents
+#      - ELASTICSEARCH_HOST=elasticsearch
 
   elasticsearch:
     image: elasticsearch:8.17.3
