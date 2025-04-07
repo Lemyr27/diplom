@@ -41,23 +41,44 @@ body {
     border-radius: 10px;
     max-width: 70%;
     word-break: break-word; /* Ensure long words don't break the layout */
+    display: inline-block; /* Make the paragraph an inline-block element */
+    clear: both; /* Ensure it clears any floats */
 }
 
 .chat-messages .user-message {
     background-color: #e2f0ff;
     align-self: flex-start; /* Align user messages to the left */
+    float: right; /* Float to the right */
 }
 
 .chat-messages .bot-message {
     background-color: #f0f0f0;
     align-self: flex-end; /* Align bot messages to the right */
+    float: left; /* Float to the left */
 }
 
 .chat-input {
     padding: 20px;
     display: flex;
     align-items: center;
+    gap: 10px;
     border-top: 1px solid #ddd;
+}
+
+.chat-keywords {
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.keyword {
+    margin: 5px 0;
+    background-color: #e2f0ff;
+    border: 1px solid #9A9CC1;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
 }
 
 .chat-input input[type="text"] {
@@ -65,11 +86,10 @@ body {
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 5px;
-    margin-right: 10px;
     font-size: 16px;
 }
 
-.chat-input button {
+.chat-input button, .chat-input svg {
     background-color: #007bff;
     color: #fff;
     border: none;
@@ -79,26 +99,35 @@ body {
     font-size: 16px;
 }
 
-.chat-input button:hover {
+.chat-input svg {
+    height: 32px;
+    padding: 3px;
+}
+
+.chat-input button:hover, .chat-input svg:hover {
     background-color: #0056b3;
-}
-
-/* Align messages to left and right */
-.chat-messages p {
-    display: inline-block; /* Make the paragraph an inline-block element */
-    clear: both; /* Ensure it clears any floats */
-}
-
-.chat-messages .bot-message {
-    float: left; /* Float to the left */
-    clear: both; /* Ensure it clears any previous floats */
-}
-
-.chat-messages .user-message {
-    float: right; /* Float to the right */
-    clear: both; /* Ensure it clears any previous floats */
 }
 
 a {
     text-decoration: none;
+}
+
+.open-keywords-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 10px;
+}
+
+.open-keywords-button:hover {
+    background-color: #0056b3;
+}
+
+.keywords-box {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
 }

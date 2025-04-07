@@ -1,7 +1,9 @@
 document.addEventListener('DOMContentLoaded', async () => {
     const messageInput = document.getElementById('message-input');
     const sendButton = document.getElementById('send-button');
+    const openKeywordsButton = document.getElementById('open-keywords-button');
     const chatMessages = document.getElementById('chat-messages');
+    const chatKeywords = document.getElementById('chat-keywords');
 
 
     let response = await fetch('/chat', {
@@ -19,6 +21,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         displayMessage(msg.user_msg, 'user');
         url = `<br><br>Источник: <a style="text-decoration: none;" href="${msg.url}" target="_blank">${msg.filename}</a>`;
         displayMessage(msg.bot_msg + url, 'bot');
+    }
+
+    for (let i = 0; i < data.keywords.length; i++) {
+        displayKeyword(data.keywords[i]);
     }
 
     sendButton.addEventListener('click', async () => {
@@ -52,6 +58,17 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 
+    openKeywordsButton.addEventListener('click', async () => {
+        if (chatKeywords.style.display === "none") {
+            chatKeywords.style.display = "flex";
+        } else {
+            chatKeywords.style.display = "none"
+        };
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    });
+
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+
     function displayMessage(message, sender) {
         const messageElement = document.createElement('p');
         messageElement.classList.add(sender + '-message');
@@ -59,5 +76,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         chatMessages.appendChild(messageElement);
 
         chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    function displayKeyword(keyword) {
+        const keywordElement = document.createElement('p');
+        keywordElement.classList.add('keyword');
+        keywordElement.innerHTML = keyword;
+        chatKeywords.appendChild(keywordElement);
     }
 });
