@@ -1,3 +1,4 @@
+import asyncio
 import io
 
 from langchain_core.documents import Document
@@ -18,8 +19,12 @@ async def _create_docs_from_text(text: str) -> list[Document]:
 async def index_document(file: io.BytesIO, filename: str) -> None:
     text = docx.get_text_from_docx(file)
     docs = await _create_docs_from_text(text)
+    tasks = []
     for i, doc in enumerate(docs):
-        await elasticsearch.index_document(text=doc.page_content, filename=filename, chunk_id=i)
+        coro = elasticsearch.index_document(text=doc.page_content, filename=filename, chunk_id=i)
+        tasks.append(asyncio.create_task(coro))
+
+    await asyncio.gather(*tasks)
 
 
 async def chat(

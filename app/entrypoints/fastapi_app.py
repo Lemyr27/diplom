@@ -48,7 +48,7 @@ async def add_document(file: UploadFile) -> None:
     await services.add_document(new_file, file.filename)
 
 
-@app.post('/indices', tags=['admin'])
+@app.delete('/indices', tags=['admin'])
 async def clean_index() -> None:
     await elasticsearch.delete_index()
     await elasticsearch.create_index()

@@ -1,7 +1,7 @@
 import abc
 from typing import List
 
-from sqlalchemy import select, desc
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.domain import model
@@ -33,6 +33,6 @@ class SqlAlchemyRepository(AbstractRepository):
         self.session.add(message)
 
     async def _list(self) -> List[model.Message]:
-        stmt = select(model.Message).order_by(desc(model.Message.created_at))
+        stmt = select(model.Message).order_by(model.Message.created_at)
         result = await self.session.execute(stmt)
         return list(result.scalars().all())

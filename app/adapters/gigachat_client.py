@@ -33,13 +33,13 @@ async def generate_keywords(questions: list[str]) -> list[str]:
         content=(
             'Тебе придет запрос содержащий FAQ через запятую, ты должен '
             'предугадать 5 коротких возможных запросов на этой основе '
-            'и вывести их строго через точку с запятой без вводных слов, сразу ответ'
+            'и вывести их строго через ";" без вводных слов, сразу ответ'
         )
     )
     message = dict(role='user', content=', '.join(questions))
     async with gigachat.GigaChat(**config.get_gigachat_creds()) as client:
         response = await client.achat(
-            dict(messages=[system_msg, message], max_tokens=3000, temperature=0.5),
+            dict(messages=[system_msg, message], max_tokens=3000, temperature=0.1),
         )
         result = response.choices[0].message.content
         return result.split('; ')

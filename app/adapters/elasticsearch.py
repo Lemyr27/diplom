@@ -30,7 +30,7 @@ async def create_index() -> None:
 async def index_document(text: str, filename: str, chunk_id: int) -> None:
     document = dict(text=text, filename=filename, chunk_id=chunk_id)
     document['text_embedding'] = embedding.get_embedding(text)
-    async with AsyncElasticsearch(config.ELASTIC_URL) as es_client:
+    async with AsyncElasticsearch(config.ELASTIC_URL, retry_on_timeout=True, max_retries=10) as es_client:
         logger.debug(f'В индекс {config.ELASTICSEARCH_INDEX} помещаем документ {document}.')
         await es_client.index(index=config.ELASTICSEARCH_INDEX, document=document)
 
