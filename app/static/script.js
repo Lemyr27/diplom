@@ -4,7 +4,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     const openKeywordsButton = document.getElementById('open-keywords-button');
     const chatMessages = document.getElementById('chat-messages');
     const chatKeywords = document.getElementById('chat-keywords');
-
+    const downloadButton = document.getElementById('download-button'); // Получаем SVG
+    const downloadModal = document.getElementById('download-modal'); // Получаем модальное окно
+    const closeButton = document.querySelector('.close-button'); // Получаем кнопку закрытия
 
     let response = await fetch('/chat', {
         method: 'GET',
@@ -84,4 +86,19 @@ document.addEventListener('DOMContentLoaded', async () => {
         keywordElement.innerHTML = keyword;
         chatKeywords.appendChild(keywordElement);
     }
+
+    // Обработчики событий для модального окна
+    downloadButton.addEventListener('click', () => {
+        downloadModal.style.display = "block";
+    });
+
+    closeButton.addEventListener('click', () => {
+        downloadModal.style.display = "none";
+    });
+
+    window.addEventListener('click', (event) => {
+        if (event.target == downloadModal) {
+            downloadModal.style.display = "none";
+        }
+    });
 });

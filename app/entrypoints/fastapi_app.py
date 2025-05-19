@@ -4,7 +4,7 @@ from fastapi import FastAPI, UploadFile
 from fastapi.requests import Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from starlette.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, FileResponse
 
 from app import schemas, views
 from app.adapters import elasticsearch, orm
@@ -40,6 +40,11 @@ async def get_chat() -> schemas.Chat:
 @app.delete('/chat', tags=['chat'])
 async def remove_chat() -> None:
     await services.remove_chat()
+
+
+@app.get('/chat/docx', tags=['chat'])
+async def download_chat() -> None:
+    return FileResponse()
 
 
 @app.post('/docs', tags=['admin'])
